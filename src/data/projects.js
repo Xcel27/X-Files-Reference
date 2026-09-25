@@ -1,0 +1,4 @@
+export const projects=[
+{id:'X-001',slug:'voss',name:'Voss',discipline:'Product Design / Development',description:'A treasury and expense platform that gives distributed finance teams a single, real-time view of company spend.',tags:['Product Design','Web App','Fintech'],year:'2025'},
+{id:'X-002',slug:'northline',name:'Northline',discipline:'Brand / Product / Technology',description:'A freight operator running on phone calls and paper manifests, rebuilt as a live tracking system with a brand to match.',tags:['Brand Identity','Dashboard','Logistics'],year:'2025'},
+{id:'X-003',slug:'warp',name:'Warp',discipline:'Software / Product Design',description:'A marketplace for independent textile and craft makers, built so a one-person workshop can sell like a small brand.',tags:['Mobile App','Marketplace','API'],year:'2024'}];
