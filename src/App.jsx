@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import { caseDetails } from './data/caseDetails'
 
 const services=[
  ['01','Product Design','UI / UX','RESEARCH','SYSTEMS'],['02','Software Development','WEB APPS','APIS','PLATFORMS'],
@@ -19,7 +20,16 @@ const projects = [
     desc: 'A creator platform for content creators to stream and monetize their content.',
     tags: ['PRODUCT DESIGN', 'APP DEVELOPMENT', '2026'],
     kind: 'streamlivr',
-    image: '/images/streamlivr.jpg'
+image: '/images/streamlivr.jpg',
+images: [
+  '/images/streamlivr/Livestreaming.png',
+  '/images/streamlivr/Interactions.png',
+  '/images/streamlivr/Creation-Studio.jpg',
+  '/images/streamlivr/Rewards.png',
+  '/images/streamlivr/Gifting.png',
+  '/images/streamlivr/Wallet.png',
+  '/images/streamlivr/Earnings.png'
+]
   },
   {
     code: 'X-003',
@@ -86,9 +96,63 @@ function Diagram({kind='hero'}){
   </div>
  )
 }
+function CaseViewer({ project, onClose }) {
+ const detail = caseDetails[project.kind]
+ useEffect(() => {
+  const previousFocus = document.activeElement
+  const dialog = document.querySelector('.case-overlay')
+  dialog.querySelector('button').focus()
+  const handleKey = (event) => {
+   if (event.key === 'Escape') onClose()
+   if (event.key !== 'Tab') return
+   const items = [...dialog.querySelectorAll('button, a[href], [tabindex="0"]')]
+   const first = items[0], last = items[items.length - 1]
+   if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus() }
+   else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
+  }
+  document.addEventListener('keydown', handleKey)
+  return () => { document.removeEventListener('keydown', handleKey); previousFocus?.focus() }
+ }, [])
+ return <div className="case-overlay" role="dialog" aria-modal="true" aria-labelledby="case-title" tabIndex={-1}>
+  <div className="case-viewer">
+   <div className="case-header"><span>{project.code} / CASE FILE</span><button type="button" onClick={onClose}>CLOSE ×</button></div>
+   <div className="case-content">
+    <div className="case-intro">
+     <div className="case-intro-meta"><span>PROJECT ARCHIVE / {project.code}</span><span>DESIGN & TECHNOLOGY</span></div>
+     {detail.logo && <><div className="case-logo-frame"><img src={detail.logo} alt={`${project.name} logo`} className="case-intro-logo" /></div><span className="case-logo-label">FIG. 00 / PROJECT IDENTITY</span></>}
+     <h2 id="case-title">{project.name}</h2>
+     <div className="case-intro-bottom"><p>{project.desc}</p><span className="case-intro-index">X-FILES / SELECTED WORK</span></div>
+    </div>
+    <section className="case-overview">
+     <div className="case-overview-heading"><span>01 / PROJECT OVERVIEW</span><h3>{detail.headline}</h3></div>
+     <div className="case-overview-body">{detail.overview.map(text => <p key={text}>{text}</p>)}
+      <div className="case-overview-meta">{[['PROJECT TYPE',detail.type],['DISCIPLINE',detail.discipline],['TEAM',detail.collaboration]].map(([label,value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>
+     </div>
+    </section>
+    <section className="case-overview"><div className="case-overview-heading"><span>02 / DESIGN CONTRIBUTIONS</span><h3>{project.kind === 'streamlivr' ? 'Designed by the X-Files Team.' : 'The design direction.'}</h3></div><div className="case-overview-body"><p>{detail.contribution}</p><ul className="case-focus">{detail.focus.map(text => <li key={text}>{text}</li>)}</ul></div></section>
+    <p className="eyebrow case-gallery-heading">03 / PROJECT GALLERY</p>
+    <div className={`case-gallery case-gallery-${project.kind}`}>{detail.gallery.map((item,index) => <figure className="case-gallery-item" key={item.src}><img src={item.src} alt={`${project.name} — ${item.title}`} loading="lazy" decoding="async" /><figcaption>FIG. {String(index+1).padStart(2,'0')} / {item.title}</figcaption><p className="case-gallery-description">{item.description}</p></figure>)}</div>
+    {detail.links.length > 0 && <section className="case-links" aria-label="Project links">{detail.links.map(link => <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>)}</section>}
+    <div className="tags">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
+    <div className="case-end"><span>END OF CASE FILE / {project.code}</span><button type="button" onClick={onClose}>RETURN TO CASE FILES ←</button></div>
+   </div>
+  </div>
+ </div>
+}
 function App(){
   const [projectType, setProjectType] = useState('')
   const [formStatus, setFormStatus] = useState('')
+  const [selectedProject, setSelectedProject] = useState(null)
+  useEffect(() => {
+  if (!selectedProject) return
+
+  const previousOverflow = document.body.style.overflow
+  document.body.style.overflow = 'hidden'
+
+  return () => {
+    document.body.style.overflow = previousOverflow
+  }
+}, [selectedProject])
   const handleSubmit = async (e) => {
   e.preventDefault()
   setFormStatus('sending')
@@ -182,8 +246,8 @@ function App(){
     <span key={tag}>{tag}</span>
   ))}
 </div>
-<a href="#contact">VIEW CASE STUDY →</a></div></article>)}</section>
-
+<button type="button" className="case-trigger" aria-haspopup="dialog" aria-label={`View ${p.name} case study`} onClick={() => setSelectedProject(p)}>VIEW CASE STUDY →</button></div></article>)}</section>
+{selectedProject && <CaseViewer project={selectedProject} onClose={() => setSelectedProject(null)} />}
    <section className="section process grid-bg">
   <p className="eyebrow">04 / PROCESS</p>
   <h2>FROM IDEA TO<br/>DEPLOYMENT</h2>
