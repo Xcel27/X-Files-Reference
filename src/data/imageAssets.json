@@ -1,0 +1,82 @@
+{
+  "/images/streamlivr-logo.png": {
+    "src": "/images/streamlivr-logo.webp",
+    "width": 1600,
+    "height": 288
+  },
+  "/images/streamlivr.jpg": {
+    "src": "/images/streamlivr.webp",
+    "width": 1200,
+    "height": 779
+  },
+  "/images/teamo-foods.jpg": {
+    "src": "/images/teamo-foods.webp",
+    "width": 1600,
+    "height": 1600
+  },
+  "/images/xfiles-project.png": {
+    "src": "/images/xfiles-project.webp",
+    "width": 1600,
+    "height": 724
+  },
+  "/images/streamlivr/Creation-Studio.jpg": {
+    "src": "/images/streamlivr/Creation-Studio.webp",
+    "width": 768,
+    "height": 1376
+  },
+  "/images/streamlivr/Earnings.png": {
+    "src": "/images/streamlivr/Earnings.webp",
+    "width": 692,
+    "height": 1500
+  },
+  "/images/streamlivr/Gifting.png": {
+    "src": "/images/streamlivr/Gifting.webp",
+    "width": 692,
+    "height": 1500
+  },
+  "/images/streamlivr/Interactions.png": {
+    "src": "/images/streamlivr/Interactions.webp",
+    "width": 692,
+    "height": 1500
+  },
+  "/images/streamlivr/Livestreaming.png": {
+    "src": "/images/streamlivr/Livestreaming.webp",
+    "width": 692,
+    "height": 1500
+  },
+  "/images/streamlivr/Rewards.png": {
+    "src": "/images/streamlivr/Rewards.webp",
+    "width": 692,
+    "height": 1500
+  },
+  "/images/streamlivr/Wallet.png": {
+    "src": "/images/streamlivr/Wallet.webp",
+    "width": 692,
+    "height": 1500
+  },
+  "/images/teamo/girl-child-day.png": {
+    "src": "/images/teamo/girl-child-day.webp",
+    "width": 1080,
+    "height": 1080
+  },
+  "/images/teamo/happy-new-week.png": {
+    "src": "/images/teamo/happy-new-week.webp",
+    "width": 1080,
+    "height": 1350
+  },
+  "/images/teamo/this-or-that.png": {
+    "src": "/images/teamo/this-or-that.webp",
+    "width": 1080,
+    "height": 1350
+  },
+  "/images/teamo/wellness-wednesday.png": {
+    "src": "/images/teamo/wellness-wednesday.webp",
+    "width": 1080,
+    "height": 1080
+  },
+  "/images/teamo/world-food-day.png": {
+    "src": "/images/teamo/world-food-day.webp",
+    "width": 1080,
+    "height": 1440
+  }
+}

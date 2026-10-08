@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import { caseDetails } from './data/caseDetails'
+import imageAssets from './data/imageAssets.json'
 
 const services=[
  ['01','Product Design','UI / UX','RESEARCH','SYSTEMS'],['02','Software Development','WEB APPS','APIS','PLATFORMS'],
@@ -96,13 +97,35 @@ function Diagram({kind='hero'}){
   </div>
  )
 }
+
+function ProjectImage({ src, alt, className, loading = 'lazy' }) {
+ const asset = imageAssets[src]
+ return <img src={asset?.src || src} width={asset?.width} height={asset?.height} alt={alt} className={className} loading={loading} decoding="async" />
+}
+function ImageViewer({ item, projectName, onClose }) {
+ const dialogRef = useRef(null)
+ const [actualSize, setActualSize] = useState(false)
+ useEffect(() => {
+  const dialog = dialogRef.current
+  dialog.showModal()
+  return () => dialog.close()
+ }, [])
+ return <dialog ref={dialogRef} className="image-dialog" aria-labelledby="image-title" onCancel={event => {event.preventDefault(); onClose()}} onClick={event => {if(event.target === event.currentTarget) onClose()}}>
+  <div className="image-viewer-header"><h3 id="image-title">{projectName} / {item.title}</h3><div><button type="button" aria-pressed={actualSize} onClick={() => setActualSize(!actualSize)}>{actualSize ? 'FIT TO SCREEN' : 'ACTUAL SIZE'}</button><button type="button" autoFocus onClick={onClose}>CLOSE IMAGE ×</button></div></div>
+  <div className={actualSize ? 'image-stage actual-size' : 'image-stage'}><img src={item.src} alt={projectName + ' — ' + item.title} /></div>
+  <p>{item.description}</p>
+ </dialog>
+}
+
 function CaseViewer({ project, onClose }) {
+ const [zoomedImage, setZoomedImage] = useState(null)
  const detail = caseDetails[project.kind]
  useEffect(() => {
   const previousFocus = document.activeElement
   const dialog = document.querySelector('.case-overlay')
   dialog.querySelector('button').focus()
   const handleKey = (event) => {
+   if (document.querySelector('.image-dialog[open]')) return
    if (event.key === 'Escape') onClose()
    if (event.key !== 'Tab') return
    const items = [...dialog.querySelectorAll('button, a[href], [tabindex="0"]')]
@@ -131,9 +154,10 @@ function CaseViewer({ project, onClose }) {
     </section>
     <section className="case-overview"><div className="case-overview-heading"><span>02 / DESIGN CONTRIBUTIONS</span><h3>{project.kind === 'streamlivr' ? 'Designed by the X-Files Team.' : 'The design direction.'}</h3></div><div className="case-overview-body"><p>{detail.contribution}</p><ul className="case-focus">{detail.focus.map(text => <li key={text}>{text}</li>)}</ul></div></section>
     <p className="eyebrow case-gallery-heading">03 / PROJECT GALLERY</p>
-    <div className={`case-gallery case-gallery-${project.kind}`}>{detail.gallery.map((item,index) => <figure className="case-gallery-item" key={item.src}><img src={item.src} alt={`${project.name} — ${item.title}`} loading="lazy" decoding="async" /><figcaption>FIG. {String(index+1).padStart(2,'0')} / {item.title}</figcaption><p className="case-gallery-description">{item.description}</p></figure>)}</div>
+    <div className={`case-gallery case-gallery-${project.kind}`}>{detail.gallery.map((item,index) => <figure className="case-gallery-item" key={item.src}><button type="button" className="gallery-zoom" aria-label={`Enlarge ${item.title}`} aria-haspopup="dialog" onClick={event => {event.currentTarget.focus(); setZoomedImage(item)}}><ProjectImage src={item.src} alt={`${project.name} — ${item.title}`} /><span>ENLARGE ↗</span></button><figcaption>FIG. {String(index+1).padStart(2,'0')} / {item.title}</figcaption><p className="case-gallery-description">{item.description}</p></figure>)}</div>
     {detail.links.length > 0 && <section className="case-links" aria-label="Project links">{detail.links.map(link => <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>)}</section>}
     <div className="tags">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
+    {zoomedImage && <ImageViewer item={zoomedImage} projectName={project.name} onClose={() => setZoomedImage(null)} />}
     <div className="case-end"><span>END OF CASE FILE / {project.code}</span><button type="button" onClick={onClose}>RETURN TO CASE FILES ←</button></div>
    </div>
   </div>
@@ -141,6 +165,20 @@ function CaseViewer({ project, onClose }) {
 }
 function App(){
   const [projectType, setProjectType] = useState('')
+  const [menuOpen, setMenuOpen] = useState(false)
+  const menuButtonRef = useRef(null)
+  const submitInFlight = useRef(false)
+  useEffect(() => {
+    if (!menuOpen) return
+    const escape = event => {if(event.key === 'Escape'){setMenuOpen(false); menuButtonRef.current?.focus()}}
+    const outside = event => {if(!event.target.closest('header')) setMenuOpen(false)}
+    const media = window.matchMedia('(min-width: 761px)')
+    const resize = () => {if(media.matches) setMenuOpen(false)}
+    document.addEventListener('keydown', escape)
+    document.addEventListener('pointerdown', outside)
+    media.addEventListener('change', resize)
+    return () => {document.removeEventListener('keydown', escape); document.removeEventListener('pointerdown', outside); media.removeEventListener('change', resize)}
+  }, [menuOpen])
   const [formStatus, setFormStatus] = useState('')
   const [selectedProject, setSelectedProject] = useState(null)
   useEffect(() => {
@@ -155,9 +193,12 @@ function App(){
 }, [selectedProject])
   const handleSubmit = async (e) => {
   e.preventDefault()
+  if (submitInFlight.current) return
+  submitInFlight.current = true
+  const form = e.currentTarget
   setFormStatus('sending')
 
-  const formData = new FormData(e.target)
+  const formData = new FormData(form)
 
   try {
     const response = await fetch('https://api.web3forms.com/submit', {
@@ -167,23 +208,25 @@ function App(){
 
     const data = await response.json()
 
-    if (data.success) {
+    if (response.ok && data.success) {
       setFormStatus('success')
-      e.target.reset()
+      form.reset()
       setProjectType('')
     } else {
       setFormStatus('error')
     }
-  } catch (error) {
+  } catch {
     setFormStatus('error')
+  } finally {
+    submitInFlight.current = false
   }
 }
  const [loaded,setLoaded]=useState(false)
  useEffect(()=>{const t=setTimeout(()=>setLoaded(true),1800);return()=>clearTimeout(t)},[])
  return <div className={loaded?'app loaded':'app'}>
   <div className="boot"><div className="boot-inner"><b>XF</b><span>INITIALIZING SYSTEM</span><div className="boot-track"><i/></div></div></div>
-  <header><a className="brand" href="#top"><b>XF</b><span>X-FILES</span></a><nav><a href="#work">01 WORK</a><a href="#services">02 SERVICES</a><a href="#about">03 ABOUT</a><a href="#contact">04 CONTACT</a></nav><span className="status"><i/> SYSTEM STATUS: ONLINE</span></header>
-  <main id="top">
+  <header><a className="brand" href="#top" onClick={() => setMenuOpen(false)}><b>XF</b><span>X-FILES</span></a><button ref={menuButtonRef} type="button" className="mobile-menu-toggle" aria-expanded={menuOpen} aria-controls="primary-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? 'CLOSE ×' : 'MENU +'}</button><nav id="primary-navigation" className={menuOpen ? 'navigation-open' : ''} aria-label="Main navigation" onClick={event => {if(event.target.closest('a')) setMenuOpen(false)}}><a href="#work">01 WORK</a><a href="#services">02 SERVICES</a><a href="#about">03 ABOUT</a><a href="#contact">04 CONTACT</a></nav><span className="status"><i/> SYSTEM STATUS: ONLINE</span></header>
+  <main>
    <section id="top" className="hero grid-bg"><div className="hero-copy"><p className="eyebrow">01 / X-FILES</p>
    <div className="hero-meta">
   <div className="meta-row">
@@ -236,7 +279,7 @@ function App(){
 
    <section id="work" className="section archive"><div className="archive-head"><p className="eyebrow"></p><h2>CASE FILES</h2><p>A selection of systems, products and identities built at the intersection of design and engineering.</p></div>
 
-   {projects.map((p,i)=><article className={`project p${i}`} key={p.name}><div className="project-art"><img
+   {projects.map((p,i)=><article className={`project p${i}`} key={p.name}><div className="project-art"><ProjectImage
   src={p.image}
   alt={`${p.name} project`}
   className="project-image"
@@ -246,7 +289,7 @@ function App(){
     <span key={tag}>{tag}</span>
   ))}
 </div>
-<button type="button" className="case-trigger" aria-haspopup="dialog" aria-label={`View ${p.name} case study`} onClick={() => setSelectedProject(p)}>VIEW CASE STUDY →</button></div></article>)}</section>
+<button type="button" className="case-trigger" aria-haspopup="dialog" aria-label={`View ${p.name} case study`} onClick={event => {event.currentTarget.focus(); setSelectedProject(p)}}>VIEW CASE STUDY →</button></div></article>)}</section>
 {selectedProject && <CaseViewer project={selectedProject} onClose={() => setSelectedProject(null)} />}
    <section className="section process grid-bg">
   <p className="eyebrow">04 / PROCESS</p>
@@ -269,11 +312,22 @@ function App(){
 </div>
 </section>
 
-   <section id="about" className="section about"><div className="about-copy"><p className="eyebrow">05 / ABOUT</p><h2>WHERE DESIGN<br/>MEETS ENGINEERING.</h2><p>X-Files is built at the intersection of design and engineering. We combine creative thinking with technical execution to turn ideas into useful digital products and technology solutions.</p></div><div className="roles"><article><span></span><b>DESIGN</b><small>PRODUCT / UI/UX / VISUAL DESIGN</small><i>+</i></article><article><span></span><b>ENGINEERING</b><small>WEB / APP / SYSTEMS / DEVELOPMENT</small><i>+</i></article><p>DESIGN DEFINES THE EXPERIENCE. ENGINEERING MAKES IT POSSIBLE.</p></div></section>
+   <section id="about" className="section about"><div className="about-copy"><p className="eyebrow">05 / ABOUT</p><h2>WHERE DESIGN<br/>MEETS ENGINEERING.</h2><p>X-Files is built at the intersection of design and engineering. We combine creative thinking with technical execution to turn ideas into useful digital products and technology solutions.</p></div>
+    <div className="roles">
+      {[
+        {name:'DESIGN', disciplines:'PRODUCT / UI/UX / VISUAL DESIGN', lead:'Turning complex ideas into clear, useful experiences.', areas:[['Product & UX','User journeys, flows and prototypes.'],['Interface design','Screens, interactions and design systems.'],['Brand & visual','Identity, graphics and digital communication.']]},
+        {name:'ENGINEERING', disciplines:'WEB / MOBILE / SOFTWARE SYSTEMS', lead:'Turning the design into dependable, working products.', areas:[['Web & mobile','Responsive websites and applications.'],['Systems & APIs','Backend services, data and integrations.'],['Delivery & maintenance','Testing, deployment and ongoing improvements.']]}
+      ].map(role => <details className="role-detail" key={role.name}>
+        <summary><span className="role-dot" aria-hidden="true"/><span className="role-heading"><strong>{role.name}</strong><small>{role.disciplines}</small></span><span className="role-toggle" aria-hidden="true"/></summary>
+        <div className="role-expanded"><p>{role.lead}</p><dl>{role.areas.map(([title,description],index) => <div key={title}><dt><span>{String(index+1).padStart(2,'0')}</span>{title}</dt><dd>{description}</dd></div>)}</dl></div>
+      </details>)}
+      <p>DESIGN DEFINES THE EXPERIENCE. ENGINEERING MAKES IT POSSIBLE.</p>
+    </div>
+   </section>
 
 
    <section id="contact" className="section contact"><div className="contact-copy"><p className="eyebrow">06 / CONTACT</p><h2>HAVE AN IDEA?<br/>LET'S BUILD IT.</h2><p>Tell us what you're working on. We'll figure out what it takes to bring it to life.</p><small>RESPONSE TIME / 1 BUSINESS DAY</small></div>
-   <form onSubmit={handleSubmit}>
+   <form onSubmit={handleSubmit} aria-busy={formStatus === 'sending'} aria-describedby="contact-status">
 
   <input
     type="hidden"
@@ -292,26 +346,29 @@ function App(){
   />
 <div className="form-row"><label>YOUR NAME<input
   name="name"
+  autoComplete="name"
   placeholder="NAME"
   required
 />
 </label><label>EMAIL<input
   name="email"
+  autoComplete="email"
   placeholder="EMAIL"
   type="email"
   required
 />
-</label></div><label>PROJECT TYPE<div className="choices">{['PRODUCT DESIGN','SOFTWARE DEVELOPMENT','DIGITAL PRODUCT','BRAND DESIGN','NOT SURE YET'].map(x => (
+</label></div><fieldset className="project-type-group"><legend>PROJECT TYPE</legend><div className="choices">{['PRODUCT DESIGN','SOFTWARE DEVELOPMENT','DIGITAL PRODUCT','BRAND DESIGN','NOT SURE YET'].map(x => (
   <button
     type="button"
     key={x}
     className={projectType === x ? 'active' : ''}
+    aria-pressed={projectType === x}
     onClick={() => setProjectType(projectType === x ? '' : x)}
   >
     {x}
   </button>
 ))}
-</div></label><label>TELL US ABOUT IT<textarea
+</div></fieldset><label>TELL US ABOUT IT<textarea
   name="message"
   rows="5"
   placeholder="A FEW DETAILS ABOUT THE PROJECT..."
@@ -325,17 +382,11 @@ function App(){
 >
   {formStatus === 'sending' ? 'TRANSMITTING...' : 'START A PROJECT →'}
 </button>
-{formStatus === 'success' && (
-  <p className="form-message success">
-    TRANSMISSION RECEIVED / WE'LL BE IN TOUCH.
-  </p>
-)}
-
-{formStatus === 'error' && (
-  <p className="form-message error">
-    TRANSMISSION FAILED / PLEASE TRY AGAIN.
-  </p>
-)}
+<div id="contact-status" className={`form-message ${formStatus}`} role="status" aria-live="polite" aria-atomic="true">
+ {formStatus === 'sending' && 'TRANSMITTING / PLEASE WAIT…'}
+ {formStatus === 'success' && "TRANSMISSION RECEIVED / THANK YOU. WE’LL BE IN TOUCH."}
+ {formStatus === 'error' && 'TRANSMISSION FAILED / YOUR DETAILS ARE STILL HERE. PLEASE TRY AGAIN.'}
+</div>
 
 </form>
 </section>
