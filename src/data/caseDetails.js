@@ -1,18 +1,18 @@
 export const caseDetails = {
   "xfiles": {
-    "headline": "One identity. One digital system.",
+    "headline": "From identity to a digital home.",
     "type": "Technology Brand",
     "discipline": "Brand Identity / Web Development",
-    "collaboration": "X-Files",
+    "collaboration": "X-Files Team",
     "overview": [
-      "X-Files brings brand identity, product thinking and web development together in a single digital presence for a technology services company.",
-      "The website connects services, selected work and project enquiries through a dark industrial visual language: technical grids, precise typography and red accents."
+      "X-Files needed a digital home that could introduce the team’s design and engineering services, present selected work and give prospective clients a clear way to start a conversation.",
+      "The result brings identity, visual design and frontend development together in one website. A dark canvas, red signals, technical grids and direct typography establish a consistent language from the opening statement to the enquiry form."
     ],
-    "contribution": "Identity and website design are presented together as a connected system. The React and Vite implementation carries that system through the services, project archive and contact experience.",
+    "contribution": "The X-Files Team developed the brand presentation and website as one connected system: visual direction, responsive page layouts, project case studies and interaction details. The implementation uses React, JavaScript and CSS, with Vite for production builds.",
     "focus": [
-      "A consistent identity across the page, from the XF mark to technical metadata.",
-      "A project archive that connects visual work with its context.",
-      "A responsive enquiry journey for prospective clients."
+      "Define a recognisable visual language through the XF signature, colour, type and technical grid.",
+      "Organise services and selected work into a clear path from introduction to project enquiry.",
+      "Carry the design across desktop and mobile with purposeful navigation, disclosure and feedback."
     ],
     "gallery": [
       {
@@ -21,7 +21,12 @@ export const caseDetails = {
         "description": "The X-Files project presentation brings the visual identity and website direction into one composition."
       }
     ],
-    "links": []
+    "links": [
+      {
+        "label": "VISIT LIVE WEBSITE",
+        "href": "https://x-files-theta.vercel.app/"
+      }
+    ]
   },
   "streamlivr": {
     "headline": "Beyond the stream.",
@@ -41,14 +46,14 @@ export const caseDetails = {
     ],
     "gallery": [
       {
-        "src": "/images/streamlivr/Livestreaming.png",
-        "title": "Live streaming",
-        "description": "The live viewing experience places creator content at the centre of the session."
+        "src": "/images/streamlivr/Content-Feed.jpg",
+        "title": "Content feed",
+        "description": "Following, For You and Trending bring creator content into one feed, with engagement actions close to each post."
       },
       {
-        "src": "/images/streamlivr/Interactions.png",
-        "title": "Audience interactions",
-        "description": "Interaction screens show how audiences participate around creator content."
+        "src": "/images/streamlivr/Explore.jpg",
+        "title": "Explore & discovery",
+        "description": "Search posts, creators and sounds. Trending audio, creator recommendations and content categories offer distinct paths to discovery."
       },
       {
         "src": "/images/streamlivr/Creation-Studio.jpg",
@@ -56,19 +61,19 @@ export const caseDetails = {
         "description": "Creative tools provide a dedicated space for preparing and producing content."
       },
       {
-        "src": "/images/streamlivr/Rewards.png",
-        "title": "Creator rewards",
-        "description": "Reward screens bring recognition and incentives into the creator experience."
+        "src": "/images/streamlivr/Livestreaming.png",
+        "title": "Live streaming",
+        "description": "The live viewing experience places creator content at the centre of the session."
       },
       {
-        "src": "/images/streamlivr/Gifting.png",
-        "title": "Virtual gifting",
-        "description": "Gifting provides an audience-facing way to support creators during engagement."
+        "src": "/images/streamlivr/Messages.jpg",
+        "title": "Messages",
+        "description": "Conversation search, message requests and a clear compose action bring direct communication into the creator experience."
       },
       {
-        "src": "/images/streamlivr/Wallet.png",
-        "title": "Wallet",
-        "description": "The wallet groups balance and transaction information within the product."
+        "src": "/images/streamlivr/Wallet-Welcome.jpg",
+        "title": "Wallet welcome",
+        "description": "A focused onboarding screen introduces sending and receiving gifts across multiple blockchains."
       },
       {
         "src": "/images/streamlivr/Earnings.png",
@@ -92,19 +97,19 @@ export const caseDetails = {
     ]
   },
   "teamo": {
-    "headline": "A brand across everyday touchpoints.",
-    "type": "Food Brand",
-    "discipline": "Visual Design / Packaging",
+    "headline": "Everyday food. A consistent visual voice.",
+    "type": "Food Brand / Campaign Collection",
+    "discipline": "Social & Campaign Design",
     "collaboration": "X-Files Team",
     "overview": [
-      "Teamo Foods is a collection of brand and visual design work spanning packaging, campaigns, social content and print communication.",
-      "The case file brings these touchpoints together to show the brand in context across physical and digital communication."
+      "This collection brings together five social and campaign designs for Teamo Foods: everyday cooking, food awareness, audience engagement, community celebration and wellness.",
+      "Each piece takes a different approach to its message while repeating familiar brand cues: the Teamo identity, green and yellow accents, product imagery and recurring contact details."
     ],
-    "contribution": "The X-Files Team created the selected social and campaign designs for Teamo Foods, combining product photography, expressive typography and the green, yellow and orange brand palette across community, promotional and wellness content.",
+    "contribution": "The X-Files Team created the selected social and campaign layouts, combining typography, photography, illustration and product imagery. The work shown here focuses on campaign communication; product packaging appears within the artwork as brand context.",
     "focus": [
-      "Carry the brand across packaging and communication.",
-      "Connect campaign, social and print applications through a consistent visual direction.",
-      "Present the work as a cohesive collection of brand touchpoints."
+      "Make each message easy to understand through a clear headline, imagery and reading order.",
+      "Adapt the composition to the subject while retaining recognisable Teamo brand cues.",
+      "Connect everyday cooking, community and educational content through a cohesive campaign collection."
     ],
     "gallery": [
       {
@@ -134,5 +139,72 @@ export const caseDetails = {
       }
     ],
     "links": []
+  },
+  "parentii": {
+    "headline": "A connected experience for everyday parenting.",
+    "logo": "/images/parentii/logo.png",
+    "type": "Parenting Assistant",
+    "discipline": "Brand Identity / Product Design / App & Web Development",
+    "collaboration": "X-Files Team",
+    "overview": [
+      "Parentii brings parenting guidance, family growth and learning into a connected product experience. The public website introduces the concept through a warm visual identity, feature explanations and published app screen presentations.",
+      "The identity, app interface and landing page share a warm, conversational direction, with distinct layouts for the product’s different parenting moments."
+    ],
+    "contribution": "The X-Files Team handled Parentii’s brand identity, app and website design, and development. A consistent visual direction connects the product’s distinct feature areas with the website that introduces them.",
+    "focus": [
+      "Establish a warm, approachable visual direction across the brand and digital interfaces.",
+      "Organise growth tracking, guidance, conversation, learning and family profiles into clear feature areas.",
+      "Carry the product story through a responsive website and recognisable app presentations."
+    ],
+    "gallery": [
+      {
+        "src": "/images/parentii/growth-dashboard.png",
+        "title": "Growth dashboard",
+        "group": "app",
+        "description": "A prominent progress score, a personalised greeting and supporting updates organise the dashboard into a clear visual hierarchy."
+      },
+      {
+        "src": "/images/parentii/crisis-mode.png",
+        "title": "Crisis Mode",
+        "group": "app",
+        "description": "A situation-entry screen pairs text and microphone input with a sequence of colour-coded guidance steps."
+      },
+      {
+        "src": "/images/parentii/copilot.png",
+        "title": "Parentii Copilot",
+        "group": "app",
+        "description": "A conversational interface uses contrasting message bubbles, avatars and suggested next actions to organise a parenting discussion."
+      },
+      {
+        "src": "/images/parentii/parenting-wisdom.png",
+        "title": "Parenting Wisdom",
+        "group": "app",
+        "description": "Search, category controls and illustrated cards bring stories, values-based content and homework support into a browsable library."
+      },
+      {
+        "src": "/images/parentii/family-profile.png",
+        "title": "Family profile",
+        "group": "app",
+        "description": "A parent profile groups account actions, child profiles and product settings into distinct, easy-to-scan sections."
+      },
+      {
+        "src": "/images/parentii/website-desktop.png",
+        "title": "Desktop website",
+        "group": "website",
+        "description": "The published landing page pairs the opening message and call to action with family illustration in a spacious desktop composition."
+      },
+      {
+        "src": "/images/parentii/website-mobile.png",
+        "title": "Mobile website",
+        "group": "website",
+        "description": "At a narrower width, the website stacks its content, wraps the main message and keeps a prominent primary action."
+      }
+    ],
+    "links": [
+      {
+        "label": "VISIT PARENTII",
+        "href": "https://parentii.app/"
+      }
+    ]
   }
 }

@@ -1,0 +1,16 @@
+{
+  "website": "https://parentii.app/",
+  "capturedOn": "2026-10-14",
+  "assets": {
+    "logo": "https://parentii.app/Parentii%20logo.png",
+    "crisis-mode": "https://parentii.app/assets/01-DS23LUOA.png",
+    "growth-dashboard": "https://parentii.app/assets/02-CnC6edQj.png",
+    "family-profile": "https://parentii.app/assets/03-BYzWThCV.png",
+    "parenting-wisdom": "https://parentii.app/assets/04-jJ31_kmM.png",
+    "copilot": "https://parentii.app/assets/05-DErPeUgt.png"
+  },
+  "websiteCaptures": [
+    "website-desktop.png",
+    "website-mobile.png"
+  ]
+}

@@ -78,5 +78,65 @@
     "src": "/images/teamo/world-food-day.webp",
     "width": 1080,
     "height": 1440
+  },
+  "/images/streamlivr/Content-Feed.jpg": {
+    "src": "/images/streamlivr/Content-Feed.webp",
+    "width": 710,
+    "height": 1537
+  },
+  "/images/streamlivr/Explore.jpg": {
+    "src": "/images/streamlivr/Explore.webp",
+    "width": 710,
+    "height": 1537
+  },
+  "/images/streamlivr/Messages.jpg": {
+    "src": "/images/streamlivr/Messages.webp",
+    "width": 710,
+    "height": 1537
+  },
+  "/images/streamlivr/Wallet-Welcome.jpg": {
+    "src": "/images/streamlivr/Wallet-Welcome.webp",
+    "width": 710,
+    "height": 1537
+  },
+  "/images/parentii/copilot.png": {
+    "src": "/images/parentii/copilot.webp",
+    "width": 830,
+    "height": 1800
+  },
+  "/images/parentii/crisis-mode.png": {
+    "src": "/images/parentii/crisis-mode.webp",
+    "width": 830,
+    "height": 1800
+  },
+  "/images/parentii/family-profile.png": {
+    "src": "/images/parentii/family-profile.webp",
+    "width": 830,
+    "height": 1800
+  },
+  "/images/parentii/growth-dashboard.png": {
+    "src": "/images/parentii/growth-dashboard.webp",
+    "width": 830,
+    "height": 1800
+  },
+  "/images/parentii/logo.png": {
+    "src": "/images/parentii/logo.webp",
+    "width": 150,
+    "height": 143
+  },
+  "/images/parentii/parenting-wisdom.png": {
+    "src": "/images/parentii/parenting-wisdom.webp",
+    "width": 830,
+    "height": 1800
+  },
+  "/images/parentii/website-desktop.png": {
+    "src": "/images/parentii/website-desktop.webp",
+    "width": 1280,
+    "height": 720
+  },
+  "/images/parentii/website-mobile.png": {
+    "src": "/images/parentii/website-mobile.webp",
+    "width": 390,
+    "height": 720
   }
 }

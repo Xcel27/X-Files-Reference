@@ -2,6 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import { caseDetails } from './data/caseDetails'
 import imageAssets from './data/imageAssets.json'
+import StreamlivrCarousel from './components/StreamlivrCarousel'
+import ProcessSteps from './components/ProcessSteps'
+import XFilesCaseStudy from './components/XFilesCaseStudy'
+import TeamoCaseStudy from './components/TeamoCaseStudy'
+import ParentiiCaseStudy, { ParentiiCover, ParentiiPhone } from './components/ParentiiCaseStudy'
 
 const services=[
  ['01','Product Design','UI / UX','RESEARCH','SYSTEMS'],['02','Software Development','WEB APPS','APIS','PLATFORMS'],
@@ -21,25 +26,18 @@ const projects = [
     desc: 'A creator platform for content creators to stream and monetize their content.',
     tags: ['PRODUCT DESIGN', 'APP DEVELOPMENT', '2026'],
     kind: 'streamlivr',
-image: '/images/streamlivr.jpg',
-images: [
-  '/images/streamlivr/Livestreaming.png',
-  '/images/streamlivr/Interactions.png',
-  '/images/streamlivr/Creation-Studio.jpg',
-  '/images/streamlivr/Rewards.png',
-  '/images/streamlivr/Gifting.png',
-  '/images/streamlivr/Wallet.png',
-  '/images/streamlivr/Earnings.png'
-]
+image: '/images/streamlivr.jpg'
+
   },
   {
     code: 'X-003',
     name: 'Teamo Foods',
-    desc: 'A collection of brand and visual design work spanning packaging, campaigns, social content and print communication.',
-    tags: ['VISUAL DESIGN', 'PACKAGING', '2025'],
+    desc: 'Social and campaign design for Teamo Foods, connecting everyday cooking, community moments and wellness through a recognisable visual voice.',
+    tags: ['VISUAL DESIGN', 'SOCIAL CAMPAIGNS', '2025'],
     kind: 'teamo',
     image: '/images/teamo-foods.jpg'
-  }
+  },
+  {code:'X-004', name:'Parentii', desc:'A parenting assistant connecting everyday guidance, family growth and learning through a warm brand, app and website experience.', tags:['BRAND & PRODUCT DESIGN','APP & WEB DEVELOPMENT'],kind:'parentii',image:'/images/parentii/website-desktop.png'}
 ]
 
 const caps = [
@@ -112,7 +110,7 @@ function ImageViewer({ item, projectName, onClose }) {
  }, [])
  return <dialog ref={dialogRef} className="image-dialog" aria-labelledby="image-title" onCancel={event => {event.preventDefault(); onClose()}} onClick={event => {if(event.target === event.currentTarget) onClose()}}>
   <div className="image-viewer-header"><h3 id="image-title">{projectName} / {item.title}</h3><div><button type="button" aria-pressed={actualSize} onClick={() => setActualSize(!actualSize)}>{actualSize ? 'FIT TO SCREEN' : 'ACTUAL SIZE'}</button><button type="button" autoFocus onClick={onClose}>CLOSE IMAGE ×</button></div></div>
-  <div className={actualSize ? 'image-stage actual-size' : 'image-stage'}><img src={item.src} alt={projectName + ' — ' + item.title} /></div>
+  <div className={actualSize ? 'image-stage actual-size' : 'image-stage'}>{item.presentation === 'parentii-phone' ? <ParentiiPhone item={item} original={actualSize}/> : <img src={item.src} alt={projectName + ' — ' + item.title} />}</div>
   <p>{item.description}</p>
  </dialog>
 }
@@ -153,8 +151,8 @@ function CaseViewer({ project, onClose }) {
      </div>
     </section>
     <section className="case-overview"><div className="case-overview-heading"><span>02 / DESIGN CONTRIBUTIONS</span><h3>{project.kind === 'streamlivr' ? 'Designed by the X-Files Team.' : 'The design direction.'}</h3></div><div className="case-overview-body"><p>{detail.contribution}</p><ul className="case-focus">{detail.focus.map(text => <li key={text}>{text}</li>)}</ul></div></section>
-    <p className="eyebrow case-gallery-heading">03 / PROJECT GALLERY</p>
-    <div className={`case-gallery case-gallery-${project.kind}`}>{detail.gallery.map((item,index) => <figure className="case-gallery-item" key={item.src}><button type="button" className="gallery-zoom" aria-label={`Enlarge ${item.title}`} aria-haspopup="dialog" onClick={event => {event.currentTarget.focus(); setZoomedImage(item)}}><ProjectImage src={item.src} alt={`${project.name} — ${item.title}`} /><span>ENLARGE ↗</span></button><figcaption>FIG. {String(index+1).padStart(2,'0')} / {item.title}</figcaption><p className="case-gallery-description">{item.description}</p></figure>)}</div>
+    {project.kind === 'xfiles' ? <XFilesCaseStudy image={detail.gallery[0]} onEnlarge={setZoomedImage} /> : project.kind === 'streamlivr' ? <StreamlivrCarousel items={detail.gallery} /> : project.kind === 'parentii' ? <ParentiiCaseStudy items={detail.gallery} onEnlarge={setZoomedImage} /> : project.kind === 'teamo' ? <TeamoCaseStudy items={detail.gallery} onEnlarge={setZoomedImage} /> : <><p className="eyebrow case-gallery-heading">03 / PROJECT GALLERY</p>
+    <div className={`case-gallery case-gallery-${project.kind}`}>{detail.gallery.map((item,index) => <figure className="case-gallery-item" key={item.src}><button type="button" className="gallery-zoom" aria-label={`Enlarge ${item.title}`} aria-haspopup="dialog" onClick={event => {event.currentTarget.focus(); setZoomedImage(item)}}><ProjectImage src={item.src} alt={`${project.name} — ${item.title}`} /><span>ENLARGE ↗</span></button><figcaption>FIG. {String(index+1).padStart(2,'0')} / {item.title}</figcaption><p className="case-gallery-description">{item.description}</p></figure>)}</div></>}
     {detail.links.length > 0 && <section className="case-links" aria-label="Project links">{detail.links.map(link => <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>)}</section>}
     <div className="tags">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
     {zoomedImage && <ImageViewer item={zoomedImage} projectName={project.name} onClose={() => setZoomedImage(null)} />}
@@ -225,7 +223,7 @@ function App(){
  useEffect(()=>{const t=setTimeout(()=>setLoaded(true),1800);return()=>clearTimeout(t)},[])
  return <div className={loaded?'app loaded':'app'}>
   <div className="boot"><div className="boot-inner"><b>XF</b><span>INITIALIZING SYSTEM</span><div className="boot-track"><i/></div></div></div>
-  <header><a className="brand" href="#top" onClick={() => setMenuOpen(false)}><b>XF</b><span>X-FILES</span></a><button ref={menuButtonRef} type="button" className="mobile-menu-toggle" aria-expanded={menuOpen} aria-controls="primary-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? 'CLOSE ×' : 'MENU +'}</button><nav id="primary-navigation" className={menuOpen ? 'navigation-open' : ''} aria-label="Main navigation" onClick={event => {if(event.target.closest('a')) setMenuOpen(false)}}><a href="#work">01 WORK</a><a href="#services">02 SERVICES</a><a href="#about">03 ABOUT</a><a href="#contact">04 CONTACT</a></nav><span className="status"><i/> SYSTEM STATUS: ONLINE</span></header>
+  <header><a className="brand" href="#top" onClick={() => setMenuOpen(false)}><b>XF</b><span>X-FILES</span></a><button ref={menuButtonRef} type="button" className="mobile-menu-toggle" aria-expanded={menuOpen} aria-controls="primary-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? 'CLOSE ×' : 'MENU +'}</button><nav id="primary-navigation" className={menuOpen ? 'navigation-open' : ''} aria-label="Main navigation" onClick={event => {if(event.target.closest('a')) setMenuOpen(false)}}><a href="#services">01 SERVICES</a><a href="#work">02 WORK</a><a href="#about">03 ABOUT</a><a href="#contact">04 CONTACT</a></nav><span className="status"><i/> SYSTEM STATUS: ONLINE</span></header>
   <main>
    <section id="top" className="hero grid-bg"><div className="hero-copy"><p className="eyebrow">01 / X-FILES</p>
    <div className="hero-meta">
@@ -279,11 +277,10 @@ function App(){
 
    <section id="work" className="section archive"><div className="archive-head"><p className="eyebrow"></p><h2>CASE FILES</h2><p>A selection of systems, products and identities built at the intersection of design and engineering.</p></div>
 
-   {projects.map((p,i)=><article className={`project p${i}`} key={p.name}><div className="project-art"><ProjectImage
+   {projects.map((p,i)=><article className={`project p${i}`} key={p.name}><div className="project-art">{p.kind === 'parentii' ? <ParentiiCover/> : <ProjectImage
   src={p.image}
   alt={`${p.name} project`}
-  className="project-image"
-/>
+  className="project-image" />}
    <span className="art-code">{p.code}</span></div><div className="project-copy"><p className="eyebrow">{p.code}</p><h3>{p.name}</h3><p>{p.desc}</p><div className="tags">
   {p.tags.map(tag => (
     <span key={tag}>{tag}</span>
@@ -293,23 +290,10 @@ function App(){
 {selectedProject && <CaseViewer project={selectedProject} onClose={() => setSelectedProject(null)} />}
    <section className="section process grid-bg">
   <p className="eyebrow">04 / PROCESS</p>
-  <h2>FROM IDEA TO<br/>DEPLOYMENT</h2>
+  <h2>FROM IDEA TO<br/>LAUNCH</h2>
 
-  <div className="steps">
-  {[
-    ['01','Discover','Understand the problem, the users, and the objective before anything gets designed.'],
-    ['02','Design','Turn ideas into clear, usable digital experiences — flows, screens, and a system to build from.'],
-    ['03','Build','Engineer the product with scalable foundations, tested and documented as it is built, not after.'],
-    ['04','Deploy','Launch, then refine — with real usage data steering what gets improved next.']
-  ].map((x, i) => (
-    <article className={`process-step step-${i + 1}`} key={x[0]}>
-      <span>{x[0]}</span>
-      <h3>{x[1]}</h3>
-      <p>{x[2]}</p>
-    </article>
-  ))}
+  <ProcessSteps/>
 
-</div>
 </section>
 
    <section id="about" className="section about"><div className="about-copy"><p className="eyebrow">05 / ABOUT</p><h2>WHERE DESIGN<br/>MEETS ENGINEERING.</h2><p>X-Files is built at the intersection of design and engineering. We combine creative thinking with technical execution to turn ideas into useful digital products and technology solutions.</p></div>
