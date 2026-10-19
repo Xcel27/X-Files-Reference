@@ -2025,88 +2025,6 @@ footer nav a {
   position: relative;
 }
 
-.case-intro-logo {
-  position: absolute;
-  top: 85px;
-  right: 0;
-  left: auto;
-
-  width: 220px;
-  height: 220px;
-  padding: 25px;
-  box-sizing: border-box;
-
-  object-fit: contain;
-  background: #191c1b;
-  border: 1px solid #343635;
-  border-radius: 0;
-
-  z-index: 1;
-}
-
-@media (max-width: 760px) {
-  .case-intro-logo {
-    display: none;
-  }
-}
-.case-intro {
-  position: relative;
-}
-
-.case-logo-frame {
-  position: absolute;
-  top: 85px;
-  right: 0;
-
-  width: 260px;
-  height: 130px;
-  padding: 18px;
-  box-sizing: border-box;
-
-  background: linear-gradient(
-  125deg,
-  #171918 0%,
-  #292020 45%,
-  #682522 100%
-);
-border: 1px solid #d4d6d3;
-  border-left: 3px solid #e33b35;
-}
-
-.case-content .case-logo-frame .case-intro-logo {
-  position: static;
-  display: block;
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  padding: 0;
-  margin: 0;
-  border: none;
-  background: transparent;
-  object-fit: contain;
-}
-
-@media (max-width: 760px) {
-  .case-logo-frame,
-  .case-logo-label {
-    display: none;
-  }
-}
-
-@media (max-width: 760px) {
-  .case-content .case-intro-logo {
-    display: none;
-  }
-}
-.case-logo-label {
-  position: absolute;
-  top: 225px;
-  right: 0;
-
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  color: #777;
-}
 /* =========================
    CASE FILE — PROJECT OVERVIEW
 ========================= */
@@ -2211,8 +2129,6 @@ border: 1px solid #d4d6d3;
 section[id] { scroll-margin-top: 70px; }
 @media (min-width: 761px) and (max-width: 1100px) {
  .case-intro h2 { font-size: clamp(64px, 10vw, 110px); }
- .case-logo-frame { position: relative; top: auto; right: auto; margin-top: 30px; }
- .case-logo-label { position: static; display: block; margin-top: 10px; }
  .case-overview { gap: 32px; }
  .case-gallery-item:nth-child(n+4) { grid-column: span 2; }
 }
@@ -2613,3 +2529,42 @@ header nav a { font-size:10px; color:#a1a7a3; }
 .case-content .image-stage.actual-size .parentii-phone { width:1010px; max-width:none; margin:0; }
 @media(max-width:760px){ .parentii-story .parentii-phone { width:min(245px,100%); } .parentii-cover-screens { gap:10px; } .parentii-cover .parentii-phone { width:calc((100% - 20px)/3); } }
 .parentii-phone-image > .parentii-phone { margin:0 auto; } .parentii-phone-screen { border-top:16px solid #faf9f4; aspect-ratio:1 / 2.06; } .parentii-cover .parentii-phone-screen { border-top-width:7px; }
+
+
+/* One identity layout for every case file; logos remain visible at every width. */
+.case-intro-heading { display:grid; grid-template-columns:minmax(0,1fr) 260px; align-items:center; gap:36px; margin:36px 0 40px; }
+.case-intro .case-intro-heading > h2 { min-width:0; margin:0; font-size:clamp(48px,8vw,110px); overflow-wrap:anywhere; }
+.case-identity { min-width:0; width:260px; max-width:100%; margin:0; }
+.case-identity .case-logo-frame { display:flex; position:static; align-items:center; justify-content:center; width:100%; height:130px; padding:18px; border:1px solid #555d57; border-left:3px solid var(--red); background:linear-gradient(125deg,#171918,#292020 60%,#492321); }
+.case-content .case-identity .case-intro-logo { display:block; position:static; width:100%; height:100%; max-width:100%; max-height:100%; object-fit:contain; margin:0; padding:0; border:0; background:transparent; }
+.case-identity .case-logo-label { display:block; position:static; color:#a1a7a3; margin-top:10px; font:10px/1.6 'DM Mono',monospace; letter-spacing:.1em; overflow-wrap:anywhere; }
+.case-xfiles-wordmark { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:14px; }
+.case-xfiles-wordmark b { font-size:35px; color:var(--red); letter-spacing:-.05em; }
+.case-xfiles-wordmark strong { font-size:26px; font-weight:500; letter-spacing:-.04em; color:#f0f0ed; }
+.case-identity-teamo .case-logo-frame { background:#fff; }
+.case-teamo-logo-window { display:block; position:relative; width:min(100%,150px); aspect-ratio:1010 / 650; overflow:hidden; }
+.case-content .case-identity .case-teamo-logo-window .case-intro-logo { position:absolute; top:0; left:0; width:202.7723%; height:auto; max-width:none; max-height:none; transform:translate(-25.390625%,-34.1796875%); }
+.case-identity-parentii .case-logo-frame { background:#faf7eb; }
+.case-parentii-wordmark { display:flex; align-items:center; justify-content:center; gap:12px; min-width:0; }
+.case-content .case-identity .case-parentii-wordmark .case-intro-logo { width:54px; height:auto; flex:none; }
+.case-parentii-wordmark strong { color:#211e13; font:700 30px/1.2 Georgia,serif; }
+@media(max-width:1100px){
+ .case-intro-heading { grid-template-columns:minmax(0,1fr); gap:24px; margin-top:28px; }
+ .case-identity { order:-1; }
+}
+@media(max-width:760px){
+ .case-intro-heading { margin:24px 0 28px; gap:26px; }
+ .case-intro .case-intro-heading > h2 { font-size:clamp(40px,11vw,80px); }
+ .case-identity { width:240px; }
+ .case-identity .case-logo-frame { height:112px; padding:14px 18px; }
+ .case-identity .case-logo-label { font-size:9px; margin-top:8px; }
+ .case-teamo-logo-window { width:125px; }
+}
+@media(max-width:360px){
+ .case-identity { width:220px; }
+ .case-xfiles-wordmark { gap:12px; }
+ .case-xfiles-wordmark b { font-size:32px; }
+ .case-xfiles-wordmark strong { font-size:24px; }
+ .case-parentii-wordmark { gap:10px; }
+ .case-parentii-wordmark strong { font-size:28px; }
+}

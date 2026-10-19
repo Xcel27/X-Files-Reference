@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
+import CaseIdentity from './components/CaseIdentity'
 import { caseDetails } from './data/caseDetails'
 import imageAssets from './data/imageAssets.json'
 import StreamlivrCarousel from './components/StreamlivrCarousel'
@@ -140,8 +141,7 @@ function CaseViewer({ project, onClose }) {
    <div className="case-content">
     <div className="case-intro">
      <div className="case-intro-meta"><span>PROJECT ARCHIVE / {project.code}</span><span>DESIGN & TECHNOLOGY</span></div>
-     {detail.logo && <><div className="case-logo-frame"><img src={detail.logo} alt={`${project.name} logo`} className="case-intro-logo" /></div><span className="case-logo-label">FIG. 00 / PROJECT IDENTITY</span></>}
-     <h2 id="case-title">{project.name}</h2>
+     <div className="case-intro-heading"><h2 id="case-title">{project.name}</h2><CaseIdentity project={project} detail={detail}/></div>
      <div className="case-intro-bottom"><p>{project.desc}</p><span className="case-intro-index">X-FILES / SELECTED WORK</span></div>
     </div>
     <section className="case-overview">
