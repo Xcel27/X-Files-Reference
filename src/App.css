@@ -2349,7 +2349,7 @@ header nav a { font-size:10px; color:#a1a7a3; }
 .xf-hero-capture button > span { display:block; margin:14px 0 8px; font:11px/1.6 'DM Mono',monospace; }
 .xf-hero-capture button:hover > span { color:var(--red); }
 .xf-hero-capture figcaption, .xf-site-preview figcaption { font-size:13px; color:#9da49e; line-height:1.7; margin-top:12px; }
-.xf-responsive-previews { display:grid; grid-template-columns:minmax(0,2.6fr) minmax(0,1fr); gap:30px; align-items:start; }
+.xf-responsive-previews { display:grid; grid-template-columns:minmax(0,2fr) minmax(0,1.2fr) minmax(0,0.7fr); gap:24px; align-items:start; }
 .xf-site-preview { margin:0; min-width:0; }
 .xf-preview-chrome { display:flex; align-items:center; gap:5px; min-height:32px; padding:8px 12px; border:1px solid #343635; background:#151816; }
 .xf-preview-chrome > span { width:4px; height:4px; border-radius:50%; background:#747d76; }
@@ -2383,6 +2383,7 @@ header nav a { font-size:10px; color:#a1a7a3; }
  .xf-type-grid, .xf-interaction-grid { grid-template-columns:minmax(0,1fr); gap:28px; }
  .xf-responsive-previews { grid-template-columns:minmax(0,1fr); gap:30px; }
  .xf-mobile-preview { width:min(260px,100%); justify-self:center; }
+ .xf-tablet-preview { width:min(540px,100%); justify-self:center; }
  .xf-delivery dl > div { grid-template-columns:minmax(0,1fr); gap:12px; }
  .xf-story-section { margin-bottom:44px; }
  .xf-signature { gap:16px; }
@@ -2568,3 +2569,15 @@ header nav a { font-size:10px; color:#a1a7a3; }
  .case-parentii-wordmark { gap:10px; }
  .case-parentii-wordmark strong { font-size:28px; }
 }
+
+/* Supplied X-Files identity, displayed without cropping or distortion. */
+
+.brand > img { width:66px; height:44px; object-fit:contain; flex:none; mix-blend-mode:screen; }
+.boot-inner > img { width:168px; height:112px; object-fit:contain; margin-bottom:14px; mix-blend-mode:screen; }
+.footer-brand { display:flex; align-items:center; gap:10px; color:#ddd; text-decoration:none; }
+.footer-brand img { width:66px; height:44px; object-fit:contain; mix-blend-mode:screen; }
+.radar-brand-logo { mix-blend-mode:screen; }
+.case-identity-xfiles .case-logo-frame { background:#090a0a; padding:0; }
+.case-identity-xfiles .case-intro-logo { mix-blend-mode:screen; }
+.xf-signature img { width:clamp(100px,20vw,230px); height:auto; object-fit:contain; mix-blend-mode:screen; }
+@media(max-width:760px) { .brand > img { width:57px; height:38px; } }

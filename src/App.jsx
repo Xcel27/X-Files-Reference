@@ -16,7 +16,7 @@ const projects = [
   {
     code: 'X-001',
     name: 'X-Files',
-    desc: 'A technology brand built from the ground up, combining identity, product thinking and web development into one distinctive digital system.',
+    desc: 'A technology brand built from the ground up, bringing identity, product thinking and web development together in one unique digital system.',
     tags: ['BRAND IDENTITY', 'WEB DEVELOPMENT', '2026'],
     kind: 'xfiles',
     image: '/images/xfiles-project.png'
@@ -24,7 +24,7 @@ const projects = [
   {
     code: 'X-002',
     name: 'Streamlivr',
-    desc: 'A creator platform for content creators to stream and monetize their content.',
+    desc: 'A platform where creators can share content, go live, connect with their audiences and earn from what they create.',
     tags: ['PRODUCT DESIGN', 'APP DEVELOPMENT', '2026'],
     kind: 'streamlivr',
 image: '/images/streamlivr.jpg'
@@ -33,12 +33,12 @@ image: '/images/streamlivr.jpg'
   {
     code: 'X-003',
     name: 'Teamo Foods',
-    desc: 'Social and campaign design for Teamo Foods, connecting everyday cooking, community moments and wellness through a recognisable visual voice.',
+    desc: 'Social and campaign design that brings Teamo Foods into everyday conversations about cooking, community and wellbeing.',
     tags: ['VISUAL DESIGN', 'SOCIAL CAMPAIGNS', '2025'],
     kind: 'teamo',
     image: '/images/teamo-foods.jpg'
   },
-  {code:'X-004', name:'Parentii', desc:'A parenting assistant connecting everyday guidance, family growth and learning through a warm brand, app and website experience.', tags:['BRAND & PRODUCT DESIGN','APP & WEB DEVELOPMENT'],kind:'parentii',image:'/images/parentii/website-desktop.png'}
+  {code:'X-004', name:'Parentii', desc:'A parenting assistant that brings guidance, learning and family growth together through a welcoming brand, app and website. Built for busy parents who want more than just advice—they want a legacy.', tags:['BRAND & PRODUCT DESIGN','APP & WEB DEVELOPMENT'],kind:'parentii',image:'/images/parentii/website-desktop.png'}
 ]
 
 const caps = [
@@ -82,10 +82,7 @@ function Diagram({kind='hero'}){
       <path d="M70 155h34m-17-17v34 M396 152h35 M396 160h22 M78 344h28 M394 350h34"/>
       <path d="M150 74v18 M350 74v18 M150 408v18 M350 408v18"/>
      </g>
-     <g className="xf-mark">
-      <path d="M150 170 L226 250 L150 330 L190 330 L250 270 L310 330 L350 330 L274 250 L350 170 L310 170 L250 230 L190 170 Z"/>
-      <path d="M286 188 H365 M286 218 H340 M286 282 H340 M286 312 H365"/>
-     </g>
+     <image className="radar-brand-logo" href="/images/xfiles-logo.jpg" x="100" y="150" width="300" height="200" preserveAspectRatio="xMidYMid meet"/>
     </g>
     <circle className="radar-core" cx="250" cy="250" r="9"/>
     <g className="radar-sweep">
@@ -150,7 +147,7 @@ function CaseViewer({ project, onClose }) {
       <div className="case-overview-meta">{[['PROJECT TYPE',detail.type],['DISCIPLINE',detail.discipline],['TEAM',detail.collaboration]].map(([label,value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>
      </div>
     </section>
-    <section className="case-overview"><div className="case-overview-heading"><span>02 / DESIGN CONTRIBUTIONS</span><h3>{project.kind === 'streamlivr' ? 'Designed by the X-Files Team.' : 'The design direction.'}</h3></div><div className="case-overview-body"><p>{detail.contribution}</p><ul className="case-focus">{detail.focus.map(text => <li key={text}>{text}</li>)}</ul></div></section>
+    <section className="case-overview"><div className="case-overview-heading"><span>02 / DESIGN CONTRIBUTIONS</span><h3>{detail.contributionHeadline || (project.kind === 'streamlivr' ? 'Designed by the X-Files Team.' : 'The design direction.')}</h3></div><div className="case-overview-body">{detail.contribution.split('\n\n').map(text => <p key={text}>{text}</p>)}<ul className="case-focus">{detail.focus.map(text => <li key={text}>{text}</li>)}</ul></div></section>
     {project.kind === 'xfiles' ? <XFilesCaseStudy image={detail.gallery[0]} onEnlarge={setZoomedImage} /> : project.kind === 'streamlivr' ? <StreamlivrCarousel items={detail.gallery} /> : project.kind === 'parentii' ? <ParentiiCaseStudy items={detail.gallery} onEnlarge={setZoomedImage} /> : project.kind === 'teamo' ? <TeamoCaseStudy items={detail.gallery} onEnlarge={setZoomedImage} /> : <><p className="eyebrow case-gallery-heading">03 / PROJECT GALLERY</p>
     <div className={`case-gallery case-gallery-${project.kind}`}>{detail.gallery.map((item,index) => <figure className="case-gallery-item" key={item.src}><button type="button" className="gallery-zoom" aria-label={`Enlarge ${item.title}`} aria-haspopup="dialog" onClick={event => {event.currentTarget.focus(); setZoomedImage(item)}}><ProjectImage src={item.src} alt={`${project.name} — ${item.title}`} /><span>ENLARGE ↗</span></button><figcaption>FIG. {String(index+1).padStart(2,'0')} / {item.title}</figcaption><p className="case-gallery-description">{item.description}</p></figure>)}</div></>}
     {detail.links.length > 0 && <section className="case-links" aria-label="Project links">{detail.links.map(link => <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer">{link.label} ↗</a>)}</section>}
@@ -222,8 +219,8 @@ function App(){
  const [loaded,setLoaded]=useState(false)
  useEffect(()=>{const t=setTimeout(()=>setLoaded(true),1800);return()=>clearTimeout(t)},[])
  return <div className={loaded?'app loaded':'app'}>
-  <div className="boot"><div className="boot-inner"><b>XF</b><span>INITIALIZING SYSTEM</span><div className="boot-track"><i/></div></div></div>
-  <header><a className="brand" href="#top" onClick={() => setMenuOpen(false)}><b>XF</b><span>X-FILES</span></a><button ref={menuButtonRef} type="button" className="mobile-menu-toggle" aria-expanded={menuOpen} aria-controls="primary-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? 'CLOSE ×' : 'MENU +'}</button><nav id="primary-navigation" className={menuOpen ? 'navigation-open' : ''} aria-label="Main navigation" onClick={event => {if(event.target.closest('a')) setMenuOpen(false)}}><a href="#services">01 SERVICES</a><a href="#work">02 WORK</a><a href="#about">03 ABOUT</a><a href="#contact">04 CONTACT</a></nav><span className="status"><i/> SYSTEM STATUS: ONLINE</span></header>
+  <div className="boot"><div className="boot-inner"><img src="/images/xfiles-logo.jpg" alt="X-Files logo" width="768" height="512"/><span>INITIALIZING SYSTEM</span><div className="boot-track"><i/></div></div></div>
+  <header><a className="brand" href="#top" onClick={() => setMenuOpen(false)}><img src="/images/xfiles-logo.jpg" alt="X-Files logo" width="768" height="512"/><span>X-FILES</span></a><button ref={menuButtonRef} type="button" className="mobile-menu-toggle" aria-expanded={menuOpen} aria-controls="primary-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? 'CLOSE ×' : 'MENU +'}</button><nav id="primary-navigation" className={menuOpen ? 'navigation-open' : ''} aria-label="Main navigation" onClick={event => {if(event.target.closest('a')) setMenuOpen(false)}}><a href="#services">01 SERVICES</a><a href="#work">02 WORK</a><a href="#about">03 ABOUT</a><a href="#contact">04 CONTACT</a></nav><span className="status"><i/> SYSTEM STATUS: ONLINE</span></header>
   <main>
    <section id="top" className="hero grid-bg"><div className="hero-copy"><p className="eyebrow">01 / X-FILES</p>
    <div className="hero-meta">
@@ -376,7 +373,7 @@ function App(){
 </section>
   </main>
   <footer>
-  <b>X-FILES</b>
+  <a className="footer-brand" href="#top"><img src="/images/xfiles-logo.jpg" alt="X-Files logo" width="768" height="512"/><span>X-FILES</span></a>
 
   <span>
     DESIGN / ENGINEERING / TECHNOLOGY · © 2026

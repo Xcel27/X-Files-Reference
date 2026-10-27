@@ -2613,3 +2613,4 @@ header nav a { font-size:10px; color:#a1a7a3; }
 .case-content .image-stage.actual-size .parentii-phone { width:1010px; max-width:none; margin:0; }
 @media(max-width:760px){ .parentii-story .parentii-phone { width:min(245px,100%); } .parentii-cover-screens { gap:10px; } .parentii-cover .parentii-phone { width:calc((100% - 20px)/3); } }
 .parentii-phone-image > .parentii-phone { margin:0 auto; } .parentii-phone-screen { border-top:16px solid #faf9f4; aspect-ratio:1 / 2.06; } .parentii-cover .parentii-phone-screen { border-top-width:7px; }
+.brand > img { width:66px; height:44px; object-fit:contain; flex:none; mix-blend-mode:screen; } @media(max-width:760px) { .brand > img { width:57px; height:38px; } }
